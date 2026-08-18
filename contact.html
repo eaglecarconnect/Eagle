@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Eagle Car Connect — Contact Us</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="Assets/images/image 7.png" type="image/x-icon" />
+  
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
+  <style>
+    /* ── RESET & VARS ── */
+    :root {
+      --brand: #E8400C;
+      --brand-glow: rgba(232,64,12,0.35);
+      --brand-light: #ff5a28;
+      --dark-bg: #080c14;
+      --dark-surface: #0d1220;
+      --dark-card: #111827;
+      --dark-border: rgba(255,255,255,0.07);
+      --dark-border-hover: rgba(232,64,12,0.45);
+      --text: #f0f4ff;
+      --text-muted: #8899bb;
+      --glass: rgba(255,255,255,0.04);
+      --r: 12px;
+      --rl: 20px;
+      --t: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--dark-bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden;line-height:1.6;width:100%}
+    a{text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--dark-bg)} ::-webkit-scrollbar-thumb{background:var(--brand);border-radius:3px}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(8,12,20,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--dark-border);transition:var(--t);width:100%}
+    nav.scrolled{background:rgba(8,12,20,0.97);box-shadow:0 4px 30px rgba(0,0,0,0.5)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;width:100%}
+    .logo{font-size:clamp(1rem,3vw,1.35rem);font-weight:800;color:var(--text);letter-spacing:-0.5px;white-space:nowrap}
+    .logo span{color:var(--brand)}
+    .nav-links{display:flex;gap:2px;list-style:none;flex-wrap:wrap}
+    .nav-links a{color:var(--text-muted);font-size:clamp(0.7rem,1.2vw,0.875rem);font-weight:500;padding:6px 10px;border-radius:8px;transition:var(--t);position:relative;white-space:nowrap}
+    .nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--glass)}
+    .nav-links a.active::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:18px;height:2px;background:var(--brand);border-radius:2px}
+    .menu-btn{display:none;background:none;border:1px solid var(--dark-border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:clamp(0.8rem,2vw,1rem);transition:var(--t)}
+    .menu-btn:hover{border-color:var(--brand);color:var(--brand)}
+    .mobile-nav{display:none;flex-direction:column;gap:4px;padding:12px 20px 20px;border-top:1px solid var(--dark-border);width:100%}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{color:var(--text-muted);padding:10px 14px;border-radius:8px;font-size:clamp(0.85rem,2vw,0.9rem);font-weight:500;transition:var(--t);display:block}
+    .mobile-nav a:hover,.mobile-nav a.active{color:var(--text);background:var(--glass);border-left:3px solid var(--brand);padding-left:11px}
+    @media(max-width:768px){.nav-links{display:none}.menu-btn{display:block}.nav-inner{padding:10px 16px}}
+    @media(max-width:480px){.nav-inner{padding:8px 12px}.logo{font-size:0.95rem}.menu-btn{padding:4px 10px;font-size:0.8rem}.mobile-nav{padding:8px 12px 16px}}
+
+    /* ── PAGE HEADER ── */
+    .page-header{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 16px 40px;position:relative;overflow:hidden;background:linear-gradient(160deg,#080c14 0%,#0d1a2e 50%,#080c14 100%);width:100%}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(232,64,12,0.12),transparent);pointer-events:none}
+    .page-grid{position:absolute;inset:0;opacity:0.04;background-image:linear-gradient(var(--dark-border) 1px,transparent 1px),linear-gradient(90deg,var(--dark-border) 1px,transparent 1px);background-size:clamp(30px,5vw,60px) clamp(30px,5vw,60px)}
+    .page-orb{position:absolute;width:clamp(200px,50vw,400px);height:clamp(200px,50vw,400px);border-radius:50%;background:radial-gradient(circle,rgba(232,64,12,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .page-content{position:relative;z-index:2;padding:0 12px;width:100%}
+    .page-content h1{font-size:clamp(1.8rem,6vw,4.5rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;word-break:break-word}
+    .page-content h1 span{color:var(--brand)}
+    .breadcrumb{color:var(--text-muted);font-size:clamp(0.7rem,1.5vw,0.85rem)}
+    .breadcrumb a{color:var(--brand);transition:var(--t)}
+    .breadcrumb a:hover{color:var(--brand-light)}
+    .breadcrumb .sep{margin:0 6px;color:var(--text-muted)}
+    @media(max-width:480px){.page-header{padding:80px 12px 30px;min-height:30vh}.page-content h1{font-size:clamp(1.5rem,8vw,2.4rem)}}
+
+    /* ── CONTACT SECTION ── */
+    .contact-section{padding:60px 16px;background:var(--dark-bg);width:100%}
+    .contact-inner{max-width:1200px;margin:0 auto;width:100%;padding:0}
+    
+    .contact-grid{display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,4vw,48px);align-items:start;width:100%}
+    
+    @media(max-width:992px){.contact-grid{grid-template-columns:1fr 1.5fr;gap:30px}}
+    @media(max-width:768px){.contact-grid{grid-template-columns:1fr;gap:28px}.contact-section{padding:40px 16px}}
+    @media(max-width:480px){.contact-section{padding:30px 12px}.contact-grid{gap:20px}}
+
+    .contact-info-card{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--rl);padding:clamp(16px,2.5vw,24px);transition:var(--t);width:100%}
+    .contact-info-card:hover{border-color:var(--dark-border-hover)}
+    
+    .contact-info-item{display:flex;align-items:flex-start;gap:clamp(10px,1.5vw,14px);padding:clamp(10px,1.5vw,16px) 0;border-bottom:1px solid var(--dark-border)}
+    .contact-info-item:last-child{border-bottom:none}
+    
+    .contact-info-icon{width:clamp(32px,4vw,40px);height:clamp(32px,4vw,40px);background:rgba(232,64,12,0.1);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:clamp(0.9rem,1.5vw,1.1rem);flex-shrink:0}
+    .contact-info-text{flex:1;min-width:0}
+    .contact-info-text h4{font-size:clamp(0.6rem,1.2vw,0.72rem);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:2px}
+    .contact-info-text p,.contact-info-text a{color:var(--text-muted);font-size:clamp(0.75rem,1.2vw,0.85rem);transition:var(--t);word-break:break-word}
+    .contact-info-text a:hover{color:var(--brand)}
+    
+    @media(max-width:480px){.contact-info-card{padding:14px}.contact-info-item{padding:8px 0;gap:8px}.contact-info-icon{width:28px;height:28px;font-size:0.8rem}.contact-info-text p,.contact-info-text a{font-size:0.75rem}.contact-info-text h4{font-size:0.55rem}}
+
+    /* ── FORM ── */
+    .contact-form-wrap{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--rl);padding:clamp(20px,3vw,40px);width:100%}
+    .contact-form-wrap h2{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:800;margin-bottom:4px;color:var(--text)}
+    .contact-form-wrap .sub{color:var(--text-muted);font-size:clamp(0.8rem,1.2vw,0.9rem);margin-bottom:clamp(16px,2vw,24px)}
+    
+    /* Message Type Selector - Email & WhatsApp */
+    .message-type-selector{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .message-type-btn{flex:1;min-width:80px;padding:10px 12px;border:2px solid var(--dark-border);border-radius:var(--r);background:transparent;color:var(--text-muted);font-weight:600;font-size:clamp(0.7rem,1vw,0.8rem);cursor:pointer;transition:var(--t);font-family:'Poppins',sans-serif;text-align:center}
+    .message-type-btn:hover{border-color:var(--text-muted);color:var(--text)}
+    .message-type-btn.active{border-color:var(--brand);color:var(--brand);background:rgba(232,64,12,0.08)}
+    .message-type-btn i{margin-right:4px}
+    
+    .form-group{margin-bottom:clamp(12px,1.5vw,16px);width:100%}
+    .form-control{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--dark-border);color:var(--text);padding:clamp(10px,1.5vw,12px) clamp(12px,1.5vw,16px);border-radius:var(--r);font-size:clamp(0.8rem,1.2vw,0.9rem);font-family:'Poppins',sans-serif;transition:var(--t);box-sizing:border-box}
+    .form-control:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(232,64,12,0.15)}
+    .form-control::placeholder{color:var(--text-muted);opacity:0.6}
+    textarea.form-control{resize:vertical;min-height:clamp(80px,15vw,120px)}
+    
+    @media(max-width:480px){.contact-form-wrap{padding:16px}.contact-form-wrap h2{font-size:1.1rem}.form-control{padding:8px 12px;font-size:0.8rem}textarea.form-control{min-height:80px}.message-type-btn{font-size:0.65rem;padding:8px 6px;min-width:60px}}
+
+    /* ── BTN ── */
+    .btn-p{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--brand);color:#fff;padding:clamp(10px,1.5vw,13px) clamp(20px,3vw,32px);border-radius:var(--r);font-weight:700;font-size:clamp(0.75rem,1.5vw,0.875rem);border:none;cursor:pointer;transition:var(--t);font-family:'Poppins',sans-serif;text-align:center;width:100%}
+    .btn-p:hover{background:var(--brand-light);transform:translateY(-2px);box-shadow:0 8px 28px var(--brand-glow);color:#fff}
+
+    /* ── STATUS MESSAGES ── */
+    .form-status{margin-top:clamp(10px,1.5vw,14px);width:100%;padding:12px 16px;border-radius:var(--r);display:none}
+    .form-status.success{display:block;background:rgba(37,211,102,0.1);border:1px solid #25d366;color:#25d366}
+    .form-status.error{display:block;background:rgba(232,64,12,0.1);border:1px solid var(--brand);color:var(--brand)}
+    .form-status.info{display:block;background:rgba(136,153,187,0.1);border:1px solid var(--text-muted);color:var(--text-muted)}
+    .form-status .status-icon{margin-right:8px}
+
+    /* ── CONTACT BUTTONS ── */
+    .contact-buttons{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+    .contact-buttons .btn-contact{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:var(--r);font-weight:700;font-size:clamp(0.75rem,1.2vw,0.85rem);transition:var(--t);text-align:center;border:none;cursor:pointer;font-family:'Poppins',sans-serif}
+    .btn-whatsapp{background:#25D366;color:#fff}
+    .btn-whatsapp:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,0.35);color:#fff}
+    @media(max-width:480px){.contact-buttons{flex-direction:column}.contact-buttons .btn-contact{width:100%}}
+
+    /* ── FOOTER ── */
+    footer{background:var(--dark-surface);border-top:1px solid var(--dark-border);padding:40px 16px 20px;width:100%}
+    .footer-inner{max-width:1200px;margin:0 auto;width:100%}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:clamp(20px,4vw,48px);margin-bottom:32px;width:100%}
+    .footer-logo{display:inline-block;font-size:clamp(1rem,2vw,1.25rem);font-weight:800;color:var(--text);margin-bottom:8px}
+    .footer-logo span{color:var(--brand)}
+    .footer-desc{color:var(--text-muted);font-size:clamp(0.75rem,1.2vw,0.85rem);line-height:1.7;margin-bottom:16px}
+    .wa-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);color:#25d366;padding:8px 14px;border-radius:50px;font-size:clamp(0.7rem,1.2vw,0.82rem);font-weight:700;transition:var(--t)}
+    .wa-btn:hover{background:rgba(37,211,102,0.18);color:#25d366}
+    .footer-col h4{font-size:clamp(0.6rem,1.2vw,0.72rem);font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);margin-bottom:14px}
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .footer-links a{color:var(--text-muted);font-size:clamp(0.75rem,1.2vw,0.85rem);transition:var(--t)}
+    .footer-links a:hover{color:var(--brand);padding-left:5px}
+    .footer-ci{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+    .footer-ci-icon{color:var(--brand);font-size:clamp(0.75rem,1.2vw,0.85rem);margin-top:2px;flex-shrink:0}
+    .footer-ci span,.footer-ci a{color:var(--text-muted);font-size:clamp(0.7rem,1.1vw,0.82rem);line-height:1.5;word-break:break-word}
+    .footer-ci a:hover{color:var(--brand)}
+    .footer-bottom{border-top:1px solid var(--dark-border);padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .footer-bottom p{color:var(--text-muted);font-size:clamp(0.65rem,1vw,0.78rem)}
+    @media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px}footer{padding:32px 16px 16px}}
+    @media(max-width:480px){.footer-grid{gap:16px}.footer-bottom{flex-direction:column;text-align:center;gap:4px}.footer-bottom p{font-size:0.65rem}.footer-ci span,.footer-ci a{font-size:0.7rem}}
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">EagleCar<span>Connect</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="car.html">Cars</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <button class="menu-btn" onclick="document.getElementById('mob-nav').classList.toggle('open')" aria-label="Menu">☰ Menu</button>
+  </div>
+  <div class="mobile-nav" id="mob-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="car.html">Cars</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="page-grid"></div>
+  <div class="page-orb"></div>
+  <div class="page-content">
+    <p class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Contact</p>
+    <h1>Get In <span>Touch</span></h1>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-grid">
+      <!-- Left Column - Contact Info -->
+      <div class="contact-info-card">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div class="contact-info-text">
+            <h4>Address</h4>
+            <p>Remera, Kigali-RWANDA</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div class="contact-info-text">
+            <h4>Phone</h4>
+            <p><a href="tel:+250788553020">+250 788 553 020</a></p>
+            <p><a href="tel:+250788350957">+250 788 350 957</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div class="contact-info-text">
+            <h4>Email</h4>
+            <p><a href="mailto:eaglecarconnect@gmail.com">eaglecarconnect@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🕐</div>
+          <div class="contact-info-text">
+            <h4>Working Hours</h4>
+            <p>Mon - Fri: 8:00 AM - 6:00 PM</p>
+            <p>Sat - Sun: 9:00 AM - 4:00 PM</p>
+          </div>
+        </div>
+        
+        
+      </div>
+
+      <!-- Right Column - Form -->
+      <div class="contact-form-wrap">
+        <h2>Send Us a Message</h2>
+        <p class="sub">Choose your preferred contact method.</p>
+        
+        <!-- Message Type Selector - Email & WhatsApp -->
+        <div class="message-type-selector">
+          <button type="button" class="message-type-btn active" data-type="email" onclick="setMessageType('email')">
+            <i class="fas fa-envelope"></i> Email
+          </button>
+          <button type="button" class="message-type-btn" data-type="whatsapp" onclick="setMessageType('whatsapp')">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+        </div>
+        
+        <form id="contact-form">
+          <div class="form-group">
+            <input type="text" id="senderName" name="name" class="form-control" placeholder="Your Name" required minlength="2" maxlength="100" />
+          </div>
+          <div class="form-group">
+            <input type="email" id="senderEmail" name="email" class="form-control" placeholder="Your Email" required maxlength="100" />
+          </div>
+          <div class="form-group" id="phoneGroup" style="display:none;">
+            <input type="tel" id="senderPhone" name="phone" class="form-control" placeholder="Your Phone Number (with country code)" />
+          </div>
+          <div class="form-group">
+            <input type="text" id="messageSubject" name="subject" class="form-control" placeholder="Subject" required minlength="2" maxlength="200" />
+          </div>
+          <div class="form-group">
+            <textarea id="messageContent" name="message" class="form-control" placeholder="Your Message" required minlength="5" maxlength="5000"></textarea>
+          </div>
+          <button type="submit" class="btn-p" id="sendBtn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+          <div id="form-status" class="form-status"></div>
+        </form>
+        
+        <div style="margin-top:12px;padding:10px;background:rgba(232,64,12,0.06);border-radius:var(--r);border:1px solid rgba(232,64,12,0.15);">
+          <p style="font-size:clamp(0.7rem,1vw,0.8rem);color:var(--text-muted);">
+            <i class="fas fa-info-circle" style="color:var(--brand);margin-right:6px;"></i>
+            Your message will be sent via <strong id="selectedMethodText">Email</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-logo" href="index.html">EagleCar<span>Connect</span></a>
+        <p class="footer-desc">© 2025 Eagle Car Connect – Connecting car buyers and sellers across Rwanda. Fast • Secure • Smooth Transactions.</p>
+        <a href="https://wa.me/250780569695" target="_blank" rel="noopener noreferrer" class="wa-btn">
+          <i class="fab fa-whatsapp"></i> WhatsApp: +250 788 553 020
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="car.html">Our Cars</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-ci"><span class="footer-ci-icon">📍</span><span>Remera, Kigali, Rwanda</span></div>
+        <div class="footer-ci"><span class="footer-ci-icon">📞</span><a href="tel:+250788553020">+250 788 553 020</a></div>
+        <div class="footer-ci"><span class="footer-ci-icon">📞</span><a href="tel:+250788350957">+250 788 350 957</a></div>
+        <div class="footer-ci"><span class="footer-ci-icon">✉️</span><a href="mailto:eaglecarconnect@gmail.com">eaglecarconnect@gmail.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Eagle Car Connect. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50));
+
+ 
+  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';      
+  const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';      
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';    
+  // Initialize EmailJS
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  let selectedType = 'email';
+
+  function setMessageType(type) {
+    selectedType = type;
+    // Update button styles
+    document.querySelectorAll('.message-type-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.type === type);
+    });
+    // Update info text
+    const methodNames = { email: 'Email', whatsapp: 'WhatsApp' };
+    document.getElementById('selectedMethodText').textContent = methodNames[type] || 'Email';
+    
+    // Show/hide phone field based on type
+    const phoneGroup = document.getElementById('phoneGroup');
+    const phoneInput = document.getElementById('senderPhone');
+    if (type === 'whatsapp') {
+      phoneGroup.style.display = 'block';
+      phoneInput.required = true;
+    } else {
+      phoneGroup.style.display = 'none';
+      phoneInput.required = false;
+    }
+  }
+
+  // Initialize - hide phone field for email
+  document.getElementById('phoneGroup').style.display = 'none';
+
+  const form = document.getElementById('contact-form');
+  const statusDiv = document.getElementById('form-status');
+  const sendBtn = document.getElementById('sendBtn');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Reset status
+    statusDiv.className = 'form-status';
+    statusDiv.style.display = 'none';
+    
+    // Get values
+    const name = document.getElementById('senderName').value.trim();
+    const email = document.getElementById('senderEmail').value.trim();
+    const phone = document.getElementById('senderPhone').value.trim();
+    const subject = document.getElementById('messageSubject').value.trim();
+    const message = document.getElementById('messageContent').value.trim();
+    
+    // ── VALIDATION ──
+    if (name.length < 2) {
+      statusDiv.className = 'form-status error';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-exclamation-circle status-icon"></i> Please enter your full name.';
+      return;
+    }
+    
+    if (!email.includes('@') || !email.includes('.')) {
+      statusDiv.className = 'form-status error';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-exclamation-circle status-icon"></i> Please enter a valid email address.';
+      return;
+    }
+    
+    if (selectedType === 'whatsapp' && phone.length < 8) {
+      statusDiv.className = 'form-status error';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-exclamation-circle status-icon"></i> Please enter a valid phone number for WhatsApp.';
+      return;
+    }
+    
+    if (message.length < 5) {
+      statusDiv.className = 'form-status error';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-exclamation-circle status-icon"></i> Please enter a message (at least 5 characters).';
+      return;
+    }
+    
+    // ── DISABLE BUTTON ──
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    
+    // ── SHOW SENDING STATUS ──
+    statusDiv.className = 'form-status info';
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin status-icon"></i> Sending your message...';
+    
+    try {
+      if (selectedType === 'email') {
+        // ── SEND EMAIL VIA EMAILJS ──
+        const templateParams = {
+          name: name,
+          email: email,
+          subject: subject,
+          message: message
+        };
+        
+        const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+        console.log('Email sent successfully:', response);
+        
+      } else if (selectedType === 'whatsapp') {
+        // ── SEND WHATSAPP (Opens WhatsApp Web/App) ──
+        const whatsappMsg = `Hello Eagle Car Connect,
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Subject: ${subject}
+
+Message:
+${message}`;
+        
+        window.open(`https://wa.me/250788553020?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
+      }
+      
+      // ── SUCCESS ──
+      statusDiv.className = 'form-status success';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-check-circle status-icon"></i> ✓ Message sent successfully! We\'ll get back to you soon.';
+      
+      // Reset form
+      form.reset();
+      document.getElementById('phoneGroup').style.display = 'none';
+      
+    } catch (error) {
+      console.error('Error:', error);
+      
+      // ── ERROR ──
+      statusDiv.className = 'form-status error';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<i class="fas fa-exclamation-circle status-icon"></i> Error sending message. Please try again.';
+    }
+    
+    // ── RE-ENABLE BUTTON ──
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+  });
+  
+  // ── CONSOLE SECURITY ──
+  console.log('%c Eagle Car Connect - Secure Connection', 'color: #E8400C; font-size: 16px; font-weight: bold;');
+  console.log('%c For support, contact: eaglecarconnect@gmail.com', 'color: #8899bb; font-size: 12px;');
+</script>
+</body>
+</html>

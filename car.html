@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Eagle Car Connect — Our Cars</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+   <!-- Security: Content Security Policy (CSP) -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data:;
+    connect-src 'self';
+  " />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="Assets/images/image 7.png" type="image/x-icon" />
+  <style>
+    /* ── RESET & VARS ── */
+    :root {
+      --brand: #E8400C;
+      --brand-glow: rgba(232,64,12,0.35);
+      --brand-light: #ff5a28;
+      --dark-bg: #080c14;
+      --dark-surface: #0d1220;
+      --dark-card: #111827;
+      --dark-border: rgba(255,255,255,0.07);
+      --dark-border-hover: rgba(232,64,12,0.45);
+      --text: #f0f4ff;
+      --text-muted: #8899bb;
+      --glass: rgba(255,255,255,0.04);
+      --r: 12px;
+      --rl: 20px;
+      --t: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--dark-bg);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden;line-height:1.6;width:100%}
+    a{text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--dark-bg)} ::-webkit-scrollbar-thumb{background:var(--brand);border-radius:3px}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(8,12,20,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--dark-border);transition:var(--t);width:100%}
+    nav.scrolled{background:rgba(8,12,20,0.97);box-shadow:0 4px 30px rgba(0,0,0,0.5)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;width:100%}
+    .logo{font-size:clamp(1rem,3vw,1.35rem);font-weight:800;color:var(--text);letter-spacing:-0.5px;white-space:nowrap}
+    .logo span{color:var(--brand)}
+    .nav-links{display:flex;gap:2px;list-style:none;flex-wrap:wrap}
+    .nav-links a{color:var(--text-muted);font-size:clamp(0.7rem,1.2vw,0.875rem);font-weight:500;padding:6px 10px;border-radius:8px;transition:var(--t);position:relative;white-space:nowrap}
+    .nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--glass)}
+    .nav-links a.active::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:18px;height:2px;background:var(--brand);border-radius:2px}
+    .menu-btn{display:none;background:none;border:1px solid var(--dark-border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:clamp(0.8rem,2vw,1rem);transition:var(--t)}
+    .menu-btn:hover{border-color:var(--brand);color:var(--brand)}
+    .mobile-nav{display:none;flex-direction:column;gap:4px;padding:12px 20px 20px;border-top:1px solid var(--dark-border);width:100%}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{color:var(--text-muted);padding:10px 14px;border-radius:8px;font-size:clamp(0.85rem,2vw,0.9rem);font-weight:500;transition:var(--t);display:block}
+    .mobile-nav a:hover,.mobile-nav a.active{color:var(--text);background:var(--glass);border-left:3px solid var(--brand);padding-left:11px}
+    @media(max-width:768px){.nav-links{display:none}.menu-btn{display:block}.nav-inner{padding:10px 16px}}
+    @media(max-width:480px){.nav-inner{padding:8px 12px}.logo{font-size:0.95rem}.menu-btn{padding:4px 10px;font-size:0.8rem}.mobile-nav{padding:8px 12px 16px}}
+
+    /* ── PAGE HEADER ── */
+    .page-header{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 16px 40px;position:relative;overflow:hidden;background:linear-gradient(160deg,#080c14 0%,#0d1a2e 50%,#080c14 100%);width:100%}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(232,64,12,0.12),transparent);pointer-events:none}
+    .page-grid{position:absolute;inset:0;opacity:0.04;background-image:linear-gradient(var(--dark-border) 1px,transparent 1px),linear-gradient(90deg,var(--dark-border) 1px,transparent 1px);background-size:clamp(30px,5vw,60px) clamp(30px,5vw,60px)}
+    .page-orb{position:absolute;width:clamp(200px,50vw,400px);height:clamp(200px,50vw,400px);border-radius:50%;background:radial-gradient(circle,rgba(232,64,12,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .page-content{position:relative;z-index:2;padding:0 12px}
+    .page-content h1{font-size:clamp(1.8rem,6vw,4.5rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;word-break:break-word}
+    .page-content h1 span{color:var(--brand)}
+    .breadcrumb{color:var(--text-muted);font-size:clamp(0.7rem,1.5vw,0.85rem)}
+    .breadcrumb a{color:var(--brand);transition:var(--t)}
+    .breadcrumb a:hover{color:var(--brand-light)}
+    .breadcrumb .sep{margin:0 6px;color:var(--text-muted)}
+    @media(max-width:480px){.page-header{padding:80px 12px 30px;min-height:30vh}.page-content h1{font-size:clamp(1.5rem,8vw,2.4rem)}}
+
+    /* ── CARS SECTION ── */
+    .cars-section{padding:60px 16px;background:var(--dark-bg);width:100%}
+    .cars-inner{max-width:1200px;margin:0 auto;width:100%}
+    .section-header{text-align:center;margin-bottom:36px;padding:0 8px}
+    .eyebrow{display:inline-block;color:var(--brand);font-size:clamp(0.6rem,1.2vw,0.72rem);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px}
+    .section-header h2{font-size:clamp(1.4rem,4vw,2.8rem);font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+    .section-header p{color:var(--text-muted);max-width:520px;margin:0 auto;font-size:clamp(0.8rem,1.2vw,1rem);padding:0 8px}
+    @media(max-width:480px){.cars-section{padding:40px 12px}.section-header{margin-bottom:24px}.section-header h2{font-size:clamp(1.2rem,5vw,1.8rem)}}
+
+    .cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(240px,30vw,280px),1fr));gap:clamp(12px,2vw,22px);width:100%}
+    .car-card{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--rl);overflow:hidden;transition:var(--t);width:100%}
+    .car-card:hover{border-color:var(--dark-border-hover);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.5)}
+    .car-img{width:100%;height:clamp(160px,25vw,200px);background-size:cover;background-position:center;position:relative}
+    .car-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,12,20,0.85),transparent 55%)}
+    .car-year{position:absolute;top:10px;left:10px;z-index:1;background:rgba(232,64,12,0.92);color:#fff;padding:3px 10px;border-radius:50px;font-size:clamp(0.6rem,1vw,0.72rem);font-weight:700;letter-spacing:0.5px}
+    .car-body{padding:clamp(12px,2vw,20px)}
+    .car-body h3{font-size:clamp(0.8rem,1.5vw,0.95rem);font-weight:800;letter-spacing:0.5px;margin-bottom:4px}
+    .car-body h3 a{color:var(--text);transition:var(--t)}
+    .car-body h3 a:hover{color:var(--brand)}
+    .car-price{color:var(--brand);font-weight:700;font-size:clamp(0.8rem,1.5vw,0.95rem);margin-bottom:14px}
+    .car-price em{color:var(--text-muted);font-style:normal;font-size:clamp(0.6rem,1vw,0.75rem);font-weight:400}
+    .car-btns{display:flex;gap:6px;flex-wrap:wrap}
+    .car-btns a{flex:1;text-align:center;padding:8px 8px;border-radius:8px;font-size:clamp(0.65rem,1.2vw,0.78rem);font-weight:700;transition:var(--t);min-width:60px}
+    .btn-inquire{background:var(--brand);color:#fff;border:none}
+    .btn-inquire:hover{background:var(--brand-light);box-shadow:0 4px 16px var(--brand-glow);color:#fff;transform:translateY(-2px)}
+    .btn-details{background:var(--glass);border:1px solid var(--dark-border);color:var(--text-muted)}
+    .btn-details:hover{border-color:var(--brand);color:var(--brand);background:rgba(232,64,12,0.07)}
+    @media(max-width:480px){.cars-grid{grid-template-columns:1fr;gap:12px}.car-img{height:180px}.car-body{padding:14px}.car-btns a{font-size:0.7rem;padding:6px 6px}}
+
+    /* ── BTN ── */
+    .btn-p{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;padding:12px 24px;border-radius:var(--r);font-weight:700;font-size:clamp(0.75rem,1.5vw,0.875rem);border:none;cursor:pointer;transition:var(--t);position:relative;overflow:hidden;text-align:center;justify-content:center}
+    .btn-p:hover{background:var(--brand-light);transform:translateY(-2px);box-shadow:0 8px 28px var(--brand-glow);color:#fff}
+
+    /* ── FOOTER ── */
+    footer{background:var(--dark-surface);border-top:1px solid var(--dark-border);padding:40px 16px 20px;width:100%}
+    .footer-inner{max-width:1200px;margin:0 auto;width:100%}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:clamp(20px,4vw,48px);margin-bottom:32px;width:100%}
+    .footer-logo{display:inline-block;font-size:clamp(1rem,2vw,1.25rem);font-weight:800;color:var(--text);margin-bottom:8px}
+    .footer-logo span{color:var(--brand)}
+    .footer-desc{color:var(--text-muted);font-size:clamp(0.75rem,1.2vw,0.85rem);line-height:1.7;margin-bottom:16px}
+    .wa-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);color:#25d366;padding:8px 14px;border-radius:50px;font-size:clamp(0.7rem,1.2vw,0.82rem);font-weight:700;transition:var(--t)}
+    .wa-btn:hover{background:rgba(37,211,102,0.18);color:#25d366}
+    .footer-col h4{font-size:clamp(0.6rem,1.2vw,0.72rem);font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);margin-bottom:14px}
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .footer-links a{color:var(--text-muted);font-size:clamp(0.75rem,1.2vw,0.85rem);transition:var(--t)}
+    .footer-links a:hover{color:var(--brand);padding-left:5px}
+    .footer-ci{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+    .footer-ci-icon{color:var(--brand);font-size:clamp(0.75rem,1.2vw,0.85rem);margin-top:2px;flex-shrink:0}
+    .footer-ci span,.footer-ci a{color:var(--text-muted);font-size:clamp(0.7rem,1.1vw,0.82rem);line-height:1.5;word-break:break-word}
+    .footer-ci a:hover{color:var(--brand)}
+    .footer-bottom{border-top:1px solid var(--dark-border);padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .footer-bottom p{color:var(--text-muted);font-size:clamp(0.65rem,1vw,0.78rem)}
+    @media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px}footer{padding:32px 16px 16px}}
+    @media(max-width:480px){.footer-grid{gap:16px}.footer-bottom{flex-direction:column;text-align:center;gap:4px}.footer-bottom p{font-size:0.65rem}.footer-ci span,.footer-ci a{font-size:0.7rem}}
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">EagleCar<span>Connect</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="car.html" class="active">Cars</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="menu-btn" onclick="document.getElementById('mob-nav').classList.toggle('open')" aria-label="Menu">☰ Menu</button>
+  </div>
+  <div class="mobile-nav" id="mob-nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="car.html" class="active">Cars</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="page-grid"></div>
+  <div class="page-orb"></div>
+  <div class="page-content">
+    <p class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span>Cars</p>
+    <h1>Choose Your <span>Car</span></h1>
+  </div>
+</section>
+
+<!-- CARS GRID -->
+<section class="cars-section">
+  <div class="cars-inner">
+    <div class="section-header">
+      <span class="eyebrow">Our Inventory</span>
+      <h2>Featured Vehicles</h2>
+      <p>Handpicked, verified cars — ready for a new owner.</p>
+    </div>
+    <div class="cars-grid">
+      <!-- Car 1 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-1.jpeg)"><span class="car-year">2003</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=1">TOYOTA RAV4</a></h3>
+          <div class="car-price">12.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2003)%20listed%20at%2012.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=1" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 2 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav42014-1\ \(1\).jpg)"><span class="car-year">2014</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=2">TOYOTA RAV4</a></h3>
+          <div class="car-price">22.8M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2014)%20listed%20at%2022.8M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=2" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 3 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/toyocoro\ \(1\).jpg)"><span class="car-year">1999</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=3">TOYOTA COROLLA</a></h3>
+          <div class="car-price">8.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20COROLLA%20(1999)%20listed%20at%208.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=3" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 4 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/toyorav4\ \(1\).jpeg)"><span class="car-year">2010</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=4">TOYOTA RAV4</a></h3>
+          <div class="car-price">25M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2010)%20listed%20at%2025M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=4" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 5 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/toyorav\ \(1\).jpeg)"><span class="car-year">2010</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=5">TOYOTA RAV4</a></h3>
+          <div class="car-price">23.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2010)%20listed%20at%2023.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=5" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 6 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/CE\ \(1\).jpg)"><span class="car-year">2003</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=6">TOYOTA COROLLA CE</a></h3>
+          <div class="car-price">12M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20COROLLA%20CE%20(2003)%20listed%20at%2012M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=6" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 7 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/hatch\ \(1\).jpeg)"><span class="car-year">2006</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=7">TOYOTA Corolla Hatchback</a></h3>
+          <div class="car-price">12M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20Corolla%20Hatchback%20(2006)%20listed%20at%2012M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=7" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 8 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/Noah\ \(1\).JPG)"><span class="car-year">2015</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=8">TOYOTA NOAH</a></h3>
+          <div class="car-price">17M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20NOAH%20(2015)%20listed%20at%2017M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=8" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 9 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/Hyundai\ \(1\).jpeg)"><span class="car-year">2015</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=9">HYUNDAI SANTAFE</a></h3>
+          <div class="car-price">17M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20HYUNDAI%20SANTAFE%20(2015)%20listed%20at%2017M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=9" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 10 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/sonata\ \(1\).jpg)"><span class="car-year">2012</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=10">HYUNDAI SONATA</a></h3>
+          <div class="car-price">8.6M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20HYUNDAI%20SONATA%20(2012)%20listed%20at%208.6M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=10" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 11 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/grandeur\ \(1\).jpeg)"><span class="car-year">2015</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=11">HYUNDAI GRANDEUR</a></h3>
+          <div class="car-price">16M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20HYUNDAI%20GRANDEUR%20(2015)%20listed%20at%2016M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=11" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 12 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/kia\ \(1\).jpg)"><span class="car-year">2021</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=12">KIA NIRO</a></h3>
+          <div class="car-price">23M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20KIA%20NIRO%20(2021)%20listed%20at%2023M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=12" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 13 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/TYOC\ \(1\).jpeg)"><span class="car-year">2015</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=13">Toyota Corolla</a></h3>
+          <div class="car-price">17M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20Toyota%20Corolla%20(2015)%20listed%20at%2017M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=13" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 14 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/altis\ \(1\).jpg)"><span class="car-year">2007</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=14">TOYOTA COROLLA ALTIS</a></h3>
+          <div class="car-price">13.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20COROLLA%20ALTIS%20(2007)%20listed%20at%2013.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=14" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 15 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/HILANDER\ \(1\).jpeg)"><span class="car-year">2008</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=15">TOYOTA HILANDER</a></h3>
+          <div class="car-price">15M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20HILANDER%20(2008)%20listed%20at%2015M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=15" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 16 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/FJ\ \(1\).JPG)"><span class="car-year">2015</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=16">TOYOTA CRUISER FJ</a></h3>
+          <div class="car-price">38.500$ <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20CRUISER%20FJ%20(2015)%20listed%20at%2038.500%24.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=16" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 17 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/tc1997\ \(1\).JPG)"><span class="car-year">1997</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=17">TOYOTA COROLLA</a></h3>
+          <div class="car-price">7M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20COROLLA%20(1997)%20listed%20at%207M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=17" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 18 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/sore\ \(1\).JPG)"><span class="car-year">2012</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=18">KIA SORENTO</a></h3>
+          <div class="car-price">18M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20KIA%20SORENTO%20(2012)%20listed%20at%2018M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=18" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 19 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/hyu\ \(1\).JPG)"><span class="car-year">2013</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=19">HYUNDAI TUCSON</a></h3>
+          <div class="car-price">15M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20HYUNDAI%20TUCSON%20(2013)%20listed%20at%2015M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=19" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 20 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/v4\ \(1\).JPG)"><span class="car-year">2004</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=20">TOYOTA RAV4</a></h3>
+          <div class="car-price">13.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2004)%20listed%20at%2013.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire">Inquire</a>
+            <a href="car-single.html?id=20" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 21 - Toyota RAV4 2010 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-2010-1.jpeg)"><span class="car-year">2010</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=21">TOYOTA RAV4</a></h3>
+          <div class="car-price">16.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2010)%20listed%20at%2016.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=21" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 22 - Hyundai Kona 2020 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/hyundai-kona-1.jpeg)"><span class="car-year">2020</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=22">HYUNDAI KONA</a></h3>
+          <div class="car-price">22M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20HYUNDAI%20KONA%20(2020)%20listed%20at%2022M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=22" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 23 - Toyota RAV4 2008 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-2008-1.jpeg)"><span class="car-year">2008</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=23">TOYOTA RAV4</a></h3>
+          <div class="car-price">14M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2008)%20listed%20at%2014M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=23" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 24 - Toyota RAV4 2002 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-2002-1.jpeg)"><span class="car-year">2002</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=24">TOYOTA RAV4</a></h3>
+          <div class="car-price">11M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2002)%20listed%20at%2011M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=24" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 25 - Toyota RAV4 2020 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-2020-1.jpeg)"><span class="car-year">2020</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=25">TOYOTA RAV4</a></h3>
+          <div class="car-price">45M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2020)%20listed%20at%2045M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=25" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 26 - Toyota RAV4 2012 Diesel -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/rav4-2012-diesel-1.jpeg)"><span class="car-year">2012</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=26">TOYOTA RAV4</a></h3>
+          <div class="car-price">21M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20RAV4%20(2012)%20Diesel%20listed%20at%2021M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=26" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Car 27 - Kia Sorento 2014 -->
+      <div class="car-card">
+        <div class="car-img" style="background-image: url(Assets/images/kia-sorento-2014-1.jpeg)"><span class="car-year">2014</span></div>
+        <div class="car-body">
+          <h3><a href="car-single.html?id=27">KIA SORENTO</a></h3>
+          <div class="car-price">18.5M RWF <em>/ Negotiable</em></div>
+          <div class="car-btns">
+            <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20KIA%20SORENTO%20(2014)%20listed%20at%2018.5M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+            <a href="car-single.html?id=27" class="btn-details">Details</a>
+          </div>
+        </div>
+      </div>
+      <!-- Car 28 - Toyota Land Cruiser V8 GXR 2017 -->
+<div class="car-card">
+  <div class="car-img" style="background-image: url(Assets/images/landcruiser-v8-2017-1.jpeg)"><span class="car-year">2017</span></div>
+  <div class="car-body">
+    <h3><a href="car-single.html?id=28">TOYOTA LAND CRUISER V8</a></h3>
+    <div class="car-price">110M RWF <em>/ Negotiable</em></div>
+    <div class="car-btns">
+      <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20LAND%20CRUISER%20V8%20GXR%20(2017)%20listed%20at%20110M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+      <a href="car-single.html?id=28" class="btn-details">Details</a>
+    </div>
+  </div>
+</div>
+
+<!-- Car 29 - Toyota Land Cruiser TXL GXR 2017 -->
+<div class="car-card">
+  <div class="car-img" style="background-image: url(Assets/images/landcruiser-txl-2017-1.jpeg)"><span class="car-year">2017</span></div>
+  <div class="car-body">
+    <h3><a href="car-single.html?id=29">TOYOTA LAND CRUISER TXL</a></h3>
+    <div class="car-price">55M RWF <em>/ Negotiable</em></div>
+    <div class="car-btns">
+      <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20LAND%20CRUISER%20TXL%20GXR%20(2017)%20listed%20at%2055M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+      <a href="car-single.html?id=29" class="btn-details">Details</a>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Car 31 - Toyota Land Cruiser V8 VX 2018 -->
+<div class="car-card">
+  <div class="car-img" style="background-image: url(Assets/images/landcruiser-v8-vx-2018-1.jpeg)"><span class="car-year">2018</span></div>
+  <div class="car-body">
+    <h3><a href="car-single.html?id=31">TOYOTA LAND CRUISER V8 VX</a></h3>
+    <div class="car-price">125M RWF <em>/ Net</em></div>
+    <div class="car-btns">
+      <a href="https://wa.me/250788553020?text=Hello%20Eagle%20Car%20Connect%2C%20I'm%20interested%20in%20the%20TOYOTA%20LAND%20CRUISER%20V8%20VX%20(2018)%20listed%20at%20125M%20RWF.%20Can%20you%20provide%20more%20details%3F" target="_blank" rel="noopener noreferrer" class="btn-inquire"> Inquire</a>
+      <a href="car-single.html?id=31" class="btn-details">Details</a>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-logo" href="index.html">EagleCar<span>Connect</span></a>
+        <p class="footer-desc">© 2025 Eagle Car Connect – Connecting car buyers and sellers across Rwanda. Fast • Secure • Smooth Transactions.</p>
+        <a href="https://wa.me/250780569695" target="_blank" rel="noopener noreferrer" class="wa-btn"> WhatsApp: +250 788 553 020</a>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="car.html">Our Cars</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-ci"><span class="footer-ci-icon"></span><span>Remera, Kigali, Rwanda</span></div>
+        <div class="footer-ci"><span class="footer-ci-icon"></span><a href="tel:+250788553020">+250 788 553 020</a></div>
+        <div class="footer-ci"><span class="footer-ci-icon"></span><a href="tel:+250788350957">+250 788 350 957</a></div>
+        <div class="footer-ci"><span class="footer-ci-icon"></span><a href="mailto:eaglecarconnect@gmail.com">eaglecarconnect@gmail.com</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Eagle Car Connect. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50));
+  
+  // ── CONSOLE SECURITY ──
+  console.log('%c Eagle Car Connect - Secure Connection', 'color: #E8400C; font-size: 16px; font-weight: bold;');
+  console.log('%c Browse our collection of verified vehicles', 'color: #8899bb; font-size: 12px;');
+</script>
+</body>
+</html>
