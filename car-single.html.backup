@@ -1,61 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Car Details — Eagle Car Connect</title>
-
+  <title>Eagle Car Connect — Car Details</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- SEO -->
-  <meta name="description" content="View detailed vehicle specifications, price, photos, condition, and contact information for cars available through Eagle Car Connect in Rwanda." />
-  <meta name="robots" content="index, follow" />
-
-  <!-- Canonical URL -->
-  <link id="canonical-url" rel="canonical" href="https://eaglecarconnect.com/car-single.html" />
-
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="product" />
-  <meta property="og:url" content="https://eaglecarconnect.com/car-single.html" />
-  <meta property="og:title" content="Car Details — Eagle Car Connect" />
-  <meta property="og:description" content="View vehicle photos, specifications, price, condition, and contact information from Eagle Car Connect." />
-  <meta property="og:image" content="https://eaglecarconnect.com/favicon.png" />
-  <meta property="og:image:alt" content="Eagle Car Connect vehicle listing" />
-  <meta property="og:site_name" content="Eagle Car Connect" />
-
-  <!-- Security Headers -->
-  <meta http-equiv="X-Frame-Options" content="DENY" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-
-  <!-- Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com;
-    font-src 'self' https://fonts.gstatic.com;
-    img-src 'self' data: https:;
-    connect-src 'self';
-  " />
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Dynamic Vehicle Structured Data -->
-  <script id="vehicle-schema" type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Eagle Car Connect Vehicle",
-    "brand": {
-      "@type": "Brand",
-      "name": "Eagle Car Connect"
-    },
-    "url": "https://eaglecarconnect.com/car-single.html"
-  }
-  </script>
+  <!-- Security Headers -->
+<meta http-equiv="X-Frame-Options" content="DENY" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Content Security Policy (CSP) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 
+'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com;
+ style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com; 
+ font-src 'self' https://fonts.gstatic.com; 
+img-src 'self' data:; connect-src 'self';" />
+  
+  <!-- Bootstrap 4 CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
   <style>
     /* ── RESET & VARS ── */
@@ -248,8 +213,8 @@
     <div class="footer-grid">
       <div>
         <a class="footer-logo" href="index.html">EagleCar<span>Connect</span></a>
-        <p class="footer-desc">© 2026 Eagle Car Connect – Connecting car buyers and sellers across Rwanda. Fast • Secure • Smooth Transactions.</p>
-        <a href="https://wa.me/250788553020" target="_blank" rel="noopener noreferrer" class="wa-btn">WhatsApp: +250 788 553 020</a>
+        <p class="footer-desc">© 2025 Eagle Car Connect – Connecting car buyers and sellers across Rwanda. Fast • Secure • Smooth Transactions.</p>
+        <a href="https://wa.me/250780569695" target="_blank" class="wa-btn">📱 WhatsApp: +250 788 553 020</a>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
@@ -268,7 +233,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 Eagle Car Connect. All rights reserved.</p>
+      <p>© 2025 Eagle Car Connect. All rights reserved.</p>
       
     </div>
   </div>
@@ -922,15 +887,15 @@
   contact: "+250 788 553 020",
   email: "izabayolenny@gmail.com / eaglecarconnect@gmail.com",
   images: [
-    "Assets/images-optimized/kia-sorento-2011-30-1.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-2.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-3.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-4.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-5.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-6.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-7.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-8.webp",
-    "Assets/images-optimized/kia-sorento-2011-30-9.webp",
+    "Assets/images/kia-sorento-2011-30-1.jpeg",
+    "Assets/images/kia-sorento-2011-30-2.jpeg",
+    "Assets/images/kia-sorento-2011-30-3.jpeg",
+    "Assets/images/kia-sorento-2011-30-4.jpeg",
+    "Assets/images/kia-sorento-2011-30-5.jpeg",
+    "Assets/images/kia-sorento-2011-30-6.jpeg",
+    "Assets/images/kia-sorento-2011-30-7.jpeg",
+    "Assets/images/kia-sorento-2011-30-8.jpeg",
+    "Assets/images/kia-sorento-2011-30-9.jpeg",
 
    
   ]
@@ -994,11 +959,11 @@
   contact: "+250 788 553 020",
   email: "izabayolenny@gmail.com / eaglecarconnect@gmail.com",
   images: [
-    "Assets/images-optimized/toyota-corolla-2012-32-1.webp",
-    "Assets/images-optimized/toyota-corolla-2012-32-2.webp",
-    "Assets/images-optimized/toyota-corolla-2012-32-3.webp",
-    "Assets/images-optimized/toyota-corolla-2012-32-4.webp",
-    "Assets/images-optimized/toyota-corolla-2012-32-5.webp"
+    "Assets/images/toyota-corolla-2012-32-1.jpeg",
+    "Assets/images/toyota-corolla-2012-32-2.jpeg",
+    "Assets/images/toyota-corolla-2012-32-3.jpeg",
+    "Assets/images/toyota-corolla-2012-32-4.jpeg",
+    "Assets/images/toyota-corolla-2012-32-5.jpeg"
   ]
 },
 
@@ -1023,8 +988,8 @@
   contact: "+250 788 553 020",
   email: "izabayolenny@gmail.com / eaglecarconnect@gmail.com",
   images: [
-    "Assets/images-optimized/kia-sorentoo-2011-33-11.webp",
-    "Assets/images-optimized/kia-sorentoo-2011-33-12.webp"
+    "Assets/images/kia-sorentoo-2011-11.jpeg",
+    "Assets/images/kia-sorentoo-2011-12.jpeg"
   ]
 },
 
@@ -1047,12 +1012,12 @@
   contact: "+250 788 553 020",
   email: "izabayolenny@gmail.com / eaglecarconnect@gmail.com",
   images: [
-    "Assets/images-optimized/kia-k5-2012-1.webp",
-    "Assets/images-optimized/kia-k5-2012-2.webp",
-    "Assets/images-optimized/kia-k5-2012-3.webp",
-    "Assets/images-optimized/kia-k5-2012-4.webp",
-    "Assets/images-optimized/kia-k5-2012-5.webp",
-    "Assets/images-optimized/kia-k5-2012-6.webp"
+    "Assets/images/kia-k5-2012-1.jpeg",
+    "Assets/images/kia-k5-2012-2.jpeg",
+    "Assets/images/kia-k5-2012-3.jpeg",
+    "Assets/images/kia-k5-2012-4.jpeg",
+    "Assets/images/kia-k5-2012-4.jpeg",
+    "Assets/images/kia-k5-2012-5.jpeg"
   ]
 },
 
@@ -1075,12 +1040,12 @@
   contact: "+250 788 553 020",
   email: "izabayolenny@gmail.com / eaglecarconnect@gmail.com",
   images: [
-    "Assets/images-optimized/kia-k5-2012-35-1.webp",
-    "Assets/images-optimized/kia-k5-2012-35-2.webp",
-    "Assets/images-optimized/kia-k5-2012-35-3.webp",
-    "Assets/images-optimized/kia-k5-2012-35-4.webp",
-    "Assets/images-optimized/kia-k5-2012-35-5.webp",
-    "Assets/images-optimized/kia-k5-2012-35-6.webp"
+    "Assets/images/kia-k5-2012-35-1.jpeg",
+    "Assets/images/kia-k5-2012-35-2.jpeg",
+    "Assets/images/kia-k5-2012-35-3.jpeg",
+    "Assets/images/kia-k5-2012-35-4.jpeg",
+    "Assets/images/kia-k5-2012-35-5.jpeg",
+    "Assets/images/kia-k5-2012-35-6.jpeg"
   ]
 },
 ];
