@@ -120,12 +120,91 @@
     .car-details-section{padding:40px 16px 60px;background:var(--dark-bg);width:100%}
     .car-details-inner{max-width:1200px;margin:0 auto;width:100%}
     
-    .carousel-wrap{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--rl);overflow:hidden;padding:10px}
-    .carousel-inner{border-radius:var(--r);overflow:hidden}
-    .carousel-item img{width:100%;height:clamp(250px,50vh,450px);object-fit:cover}
-    .carousel-control-prev-icon,.carousel-control-next-icon{background-color:rgba(0,0,0,0.6);border-radius:50%;padding:20px;background-size:60%}
-    .carousel-indicators li{background-color:var(--text-muted);width:10px;height:10px;border-radius:50%;margin:0 4px}
-    .carousel-indicators .active{background-color:var(--brand)}
+    .carousel-wrap{
+  background:var(--dark-card);
+  border:1px solid var(--dark-border);
+  border-radius:var(--rl);
+  overflow:hidden;
+  padding:10px
+}
+
+.carousel{
+  position:relative;
+}
+
+.carousel-inner{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  border-radius:var(--r);
+}
+
+.carousel-item{
+  position:relative;
+  display:none;
+  float:left;
+  width:100%;
+  margin-right:-100%;
+  backface-visibility:hidden;
+}
+
+.carousel-item.active{
+  display:block;
+}
+
+.carousel-item-next,
+.carousel-item-prev{
+  position:absolute;
+  top:0;
+  width:100%;
+}
+
+.carousel-item-next{
+  transform:translateX(100%);
+}
+
+.carousel-item-prev{
+  transform:translateX(-100%);
+}
+
+.active.carousel-item-left{
+  transform:translateX(-100%);
+}
+
+.active.carousel-item-right{
+  transform:translateX(100%);
+}
+
+.carousel-item-next.carousel-item-left,
+.carousel-item-prev.carousel-item-right{
+  transform:translateX(0);
+}
+
+.carousel-item img{
+  width:100%;
+  height:clamp(250px,50vh,450px);
+  object-fit:cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  background-color:rgba(0,0,0,0.6);
+  border-radius:50%;
+  padding:20px;
+  background-size:60%;
+}
+
+.carousel-indicators li{
+  background-color:var(--text-muted);
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  margin:0 4px;
+}
+
+.carousel-indicators .active{
+  background-color:var(--brand);
+}
 
     .specs-wrap{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--rl);padding:clamp(16px,2.5vw,30px);height:100%}
     .specs-wrap h3{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:800;color:var(--text);margin-bottom:16px;border-bottom:1px solid var(--dark-border);padding-bottom:12px}
