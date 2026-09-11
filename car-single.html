@@ -12,6 +12,8 @@
 
   <!-- Canonical URL -->
   <link id="canonical-url" rel="canonical" href="https://eaglecarconnect.com/car-single.html" />
+  <!-- Bootstrap 4 CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="product" />
@@ -1101,16 +1103,24 @@
     const indicators = document.getElementById('carousel-indicators');
     
     car.images.forEach((img, index) => {
-      const active = index === 0 ? 'active' : '';
-      carouselInner.innerHTML += `
-        <div class="carousel-item ${active}">
-          <img loading="lazy" src="${img}" class="d-block w-100" alt="${car.name} Image ${index + 1}" onerror="this.src='Assets/images/placeholder.jpg'">
-        </div>
-      `;
-      indicators.innerHTML += `
-        <li data-target="#carCarousel" data-slide-to="${index}" class="${active}"></li>
-      `;
-    });
+  const active = index === 0 ? 'active' : '';
+
+  carouselInner.innerHTML += `
+    <div class="carousel-item ${active}">
+      <img
+        loading="${index === 0 ? 'eager' : 'lazy'}"
+        src="${img}"
+        class="d-block w-100"
+        alt="${car.name} ${car.model} for sale in Rwanda - Image ${index + 1}"
+        onerror="this.src='Assets/images/placeholder.jpg'"
+      >
+    </div>
+  `;
+
+  indicators.innerHTML += `
+    <li data-target="#carCarousel" data-slide-to="${index}" class="${active}"></li>
+  `;
+});
 
     // ── SPECIFICATIONS ──
     const specsContainer = document.getElementById('car-specs');
